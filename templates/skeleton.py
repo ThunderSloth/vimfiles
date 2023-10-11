@@ -6,4 +6,4 @@ print("\nWelcome to my program!\n")
         
 # ...
 
-printl"\n\nThanks for using my program!")
+print("\n\nThanks for using my program!")

@@ -16,8 +16,8 @@ hi CursorColumn cterm=NONE
 colo slate "colorscheme
 
 let g:mapleader = "\\"
-nnoremap <Leader>o o<ESC>k
-nnoremap <Leader>O O<ESC>j
+nnoremap <Leader>o o<ESC>
+nnoremap <Leader>O O<ESC>
 
 augroup templates
 au!
@@ -28,11 +28,20 @@ autocmd BufNewFile *.* silent! execute '0r $HOME/vimfiles/templates/skeleton.'.e
 autocmd BufNewFile * %substitute#\[:VIM_EVAL:\]\(.\{-\}\)\[:END_EVAL:\]#\=eval(submatch(1))#ge
 augroup END
 
-" Augroup for running code with F12
+" F12: clear screen, compile and run code
 augroup RunCodeF12
-autocmd!
-autocmd FileType python nnoremap <buffer> <F12> :w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR>
-autocmd FileType python imap <buffer> <F12> <esc>:w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR>
-autocmd FileType java nnoremap <buffer> <F12> :w<CR>:exec '!clear;javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
-autocmd FileType java imap <buffer> <F12> <esc>:w<CR>:exec '!clear;javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+    autocmd!
+    autocmd FileType python nnoremap <buffer> <F12> :w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR>
+    autocmd FileType python imap <buffer> <F12> <esc>:w<CR>:exec '!clear;python3' shellescape(@%, 1)<CR>
+    autocmd FileType java nnoremap <buffer> <F12> :w<CR>:exec '!clear;javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+    autocmd FileType java imap <buffer> <F12> <esc>:w<CR>:exec '!clear;javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+augroup END
+
+" F11: compile and run code
+augroup RunCodeF11
+    autocmd!
+    autocmd FileType python nnoremap <buffer> <F11>:echo "F11 was pressed"<CR> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+    autocmd FileType python imap <buffer> <F11> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+    autocmd FileType java nnoremap <buffer> <F11> :w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+    autocmd FileType java imap <buffer> <F11> <esc>:w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
 augroup END
