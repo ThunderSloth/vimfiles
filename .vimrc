@@ -13,7 +13,11 @@ set cursorcolumn
 hi CursorLine   cterm=NONE 
 hi CursorColumn cterm=NONE
 
-colo slate "colorscheme
+colorscheme slate
+augroup SwitchModes
+    autocmd InsertEnter * :colorscheme darkblue
+    autocmd InsertLeave * :colorscheme slate
+augroup END
 
 let g:mapleader = "\\"
 nnoremap <Leader>o o<ESC>
@@ -37,11 +41,12 @@ augroup RunCodeF12
     autocmd FileType java imap <buffer> <F12> <esc>:w<CR>:exec '!clear;javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
 augroup END
 
-" F11: compile and run code
-augroup RunCodeF11
+" F11: does not work for some reason
+" F10: compile and run, without clear screen
+augroup RunCodeF10
     autocmd!
-    autocmd FileType python nnoremap <buffer> <F11>:echo "F11 was pressed"<CR> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-    autocmd FileType python imap <buffer> <F11> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-    autocmd FileType java nnoremap <buffer> <F11> :w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
-    autocmd FileType java imap <buffer> <F11> <esc>:w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+    autocmd FileType python nnoremap <buffer> <F10>:echo "F11 was pressed"<CR> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+    autocmd FileType python imap <buffer> <F10> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+    autocmd FileType java nnoremap <buffer> <F10> :w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+    autocmd FileType java imap <buffer> <F10> <esc>:w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
 augroup END
