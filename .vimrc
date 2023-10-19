@@ -1,12 +1,21 @@
 syntax on
-"set number "in case I want to see line number on current line and relative on the others
 set relativenumber
 set spell
 
-set tabstop=4
-set shiftwidth=4
+" Python settings
+autocmd FileType python setlocal shiftwidth=4
+autocmd FileType python setlocal softtabstop=4
+autocmd FileType python setlocal tabstop=4
+autocmd FileType python setlocal colorcolumn=79
+ 
+" Java settings
+autocmd FileType java setlocal shiftwidth=2
+autocmd FileType java setlocal softtabstop=2
+autocmd FileType java setlocal tabstop=2
+autocmd FileType java setlocal colorcolumn=100
+
+set smartindent
 set expandtab
-set si "smart indent
 
 set cursorline
 set cursorcolumn
@@ -42,11 +51,24 @@ augroup RunCodeF12
 augroup END
 
 " F11: does not work for some reason
-" F10: compile and run, without clear screen
+" F10: run, without compile and clear screen
 augroup RunCodeF10
     autocmd!
-    autocmd FileType python nnoremap <buffer> <F10>:echo "F11 was pressed"<CR> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
+    autocmd FileType python nnoremap <buffer> <F10> :w<CR>:exec '!python3' shellescape(@%, 1)<CR>
     autocmd FileType python imap <buffer> <F10> <esc>:w<CR>:exec '!python3' shellescape(@%, 1)<CR>
-    autocmd FileType java nnoremap <buffer> <F10> :w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
-    autocmd FileType java imap <buffer> <F10> <esc>:w<CR>:exec '!javac' shellescape(expand('%'), 1) '&& java' shellescape(expand('%:r'), 1)<cr>
+    autocmd FileType java nnoremap <buffer> <F10> :w<CR>:!java <c-r>=shellescape(expand('%'), 1)<CR><CR>
+    autocmd FileType java imap <buffer> <F10> <Esc>:w<CR>:!java <c-r>=shellescape(expand('%'), 1)<CR><CR>
 augroup END
+call plug#begin('~/.vim/plugged')
+" Plugin configurations
+    Plug 'vim-syntastic/syntastic'
+call plug#end()
+" ALE: reasonable defaults from webinstall.dev/vim-ale
+source ~/.vim/plugins/ale.vim
+let g:syntastic_java_checkers = ['checkstyle']
+let g:syntastic_java_checkstyle_classpath =  '/Users/elibell/checkstyle/checkstyle-10.12.4-all.jar'
+let g:syntastic_java_checkstyle_conf_file = '/Users/elibell/checkstyle/global-checkstyle.xml'
+let g:syntastic_check_on_open = 1
+let g:ale_linters = {
+    \ 'java': ['checkstyle'],
+    \ }
