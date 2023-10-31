@@ -1,14 +1,17 @@
-# ... description ...
-# Eli Bell
-# [:VIM_EVAL:]strftime('%F')[:END_EVAL:]
+"""
+... description ...
+
+Eli Bell
+[:VIM_EVAL:]strftime('%F')[:END_EVAL:]
+"""
+
 
 def main():
-    print("\nWelcome to my script!\n")
-
-    # ...
-
-    print("\nThanks for using my script!")
+    """ Main method. """
+    pass
 
 
 if __name__ == '__main__':
+    print("\nWelcome to my script!\n")
     main()
+    print("\nThanks for using my script!")

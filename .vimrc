@@ -22,15 +22,18 @@ set cursorcolumn
 hi CursorLine   cterm=NONE 
 hi CursorColumn cterm=NONE
 
+
 colorscheme slate
 augroup SwitchModes
-    autocmd InsertEnter * :colorscheme darkblue
+    autocmd InsertEnter * :colorscheme evening
     autocmd InsertLeave * :colorscheme slate
 augroup END
 
 let g:mapleader = "\\"
 nnoremap <Leader>o o<ESC>
 nnoremap <Leader>O O<ESC>
+nnoremap <leader>g :!java -jar ~/google-java-format-1.18.1-all-deps.jar -i %<CR>
+nnoremap <leader>n :NERDTree<CR>
 
 augroup templates
 au!
@@ -62,13 +65,20 @@ augroup END
 call plug#begin('~/.vim/plugged')
 " Plugin configurations
     Plug 'vim-syntastic/syntastic'
+    Plug 'preservim/nerdtree'
 call plug#end()
 " ALE: reasonable defaults from webinstall.dev/vim-ale
 source ~/.vim/plugins/ale.vim
 let g:syntastic_java_checkers = ['checkstyle']
 let g:syntastic_java_checkstyle_classpath =  '/Users/elibell/checkstyle/checkstyle-10.12.4-all.jar'
 let g:syntastic_java_checkstyle_conf_file = '/Users/elibell/checkstyle/global-checkstyle.xml'
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_wq = 0
 let g:syntastic_check_on_open = 1
+let g:syntastic_enable_signs = 1
 let g:ale_linters = {
     \ 'java': ['checkstyle'],
-    \ }
+    \ }    
+
