@@ -14,7 +14,7 @@ set expandtab
 autocmd FileType python setlocal shiftwidth=4
 autocmd FileType python setlocal softtabstop=4
 autocmd FileType python setlocal tabstop=4
-autocmd FileType python setlocal colorcolumn=79
+autocmd FileType python setlocal colorcolumn=88
  
 """"""""""""""""""""""""""""""""""""""""
 "               JAVA                   "
@@ -31,13 +31,9 @@ set cursorline
 set cursorcolumn
 hi CursorLine   cterm=NONE 
 hi CursorColumn cterm=NONE
+set fillchars+=vert:\   
 
-colorscheme slate
-augroup SwitchModes
-    autocmd InsertEnter * :colorscheme evening
-    autocmd InsertLeave * :colorscheme slate
-augroup END
-
+colorscheme iceberg
 """"""""""""""""""""""""""""""""""""""""
 "            SKELETONS                 "
 """"""""""""""""""""""""""""""""""""""""
@@ -55,8 +51,8 @@ augroup END
 let g:mapleader = "\\"
 nnoremap <Leader>o o<ESC>
 nnoremap <Leader>O O<ESC>
-nnoremap <leader>g :!java -jar ~/google-java-format-1.18.1-all-deps.jar -i %<CR>
-nnoremap <leader>n :NERDTree<CR>
+nnoremap <leader>f :call RunFixer()<CR>
+nnoremap <leader>n :NERDTreeToggle<CR>
 
 " F12: clear screen, compile and run code
 augroup RunCodeF12
@@ -78,9 +74,35 @@ augroup RunCodeF10
 augroup END
 
 """"""""""""""""""""""""""""""""""""""""
-"             PLUGINS                  "
+"              PLUGINS                 "
 """"""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 " Plugin configurations
-    Plug 'preservim/nerdtree'
+     Plug 'itchyny/lightline.vim'
+     Plug 'preservim/nerdtree'
+     Plug 'ervandew/supertab'
 call plug#end()
+
+"highlight Directory ctermfg=cyan
+set laststatus=2
+set noshowmode
+if !has('gui_running')
+  set t_Co=256
+endif
+""""""""""""""""""""""""""""""""""""""""
+"             FUNCTIONS                "
+""""""""""""""""""""""""""""""""""""""""
+function! RunFixer()
+    w    
+    if &filetype ==# 'java'
+        silent !java -jar ~/google-java-format-1.18.1-all-deps.jar -i %
+    elseif &filetype ==# 'python'
+        silent !black %
+    " Add more file type checks and fixer commands as needed
+    else
+        echo "No fixer defined for this file type"
+    endif
+    " Reload the file to reflect the changes made by the fixer
+    e
+    redraw!
+endfunction
